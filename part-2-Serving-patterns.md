@@ -1,69 +1,3 @@
-## 前言
-本文基本上是个搬运文章。搬运书本<Designing Distributed Systems>  by Brendan Burns
-
-## 本书官方下载地址
-需要注册个Microsoft Azure账户
-https://azure.microsoft.com/en-us/resources/designing-distributed-systems/en-us/
-
-## 致谢
-本文受到团队成员David 和铁三的指正。David是真的distributed system expert. 铁三是真得填坑专家。
-
-## 本文的意义
-1. 设计模式的意义
-站在巨人的肩膀上
-大家都说的同样的人话
-建的轮子能复用
-
-## 单节点模式 (Single-Node Pattern)
-### Sidecar模式
-比如hpm
-比如ngrok
-比如dynamic configuration with Sidecars
-比如Sync with Git
-
-As Yegge's recalls that one day Jeff Bezos issued a mandate, sometime back around 2002 (give or take a year):
-
-All teams will henceforth expose their data and functionality through service interfaces.
-Teams must communicate with each other through these interfaces.
-There will be no other form of inter-process communication allowed: no direct linking, no direct reads of another team’s data store, no shared-memory model, no back-doors whatsoever. The only communication allowed is via service interface calls over the network.
-It doesn’t matter what technology they use.
-All service interfaces, without exception, must be designed from the ground up to be externalizable. That is to say, the team must plan and design to be able to expose the interface to developers in the outside world. No exceptions.
-
-## Ambassador 模式
-### Using an Ambassador to Shard a Service
-在金服内的用例： api 分流， mobilegw （无线网关）？？？
-
-The following section describes how to use the single-node ambassador pattern for client-side sharding.
-
-Hands On: Implementing a Sharded Redis
-
-### Using an Ambassador for Service Brokering
-To understand what this means, imagine a front‐ end that relies on a MySQL database to store its data. In the public cloud, this MySQL service might be provided as software-as-a-service (SaaS), whereas in a private cloud it might be necessary to dynamically spin up a new virtual machine or container run‐ ning MySQL.
-Consequently, building a portable application requires that the application know how to introspect its environment and find the appropriate MySQL service to connect to. This process is called service discovery, and the system that performs this discovery and linking is commonly called a service broker.
-
-### Using an Ambassador to Do Experimentation or Request Splitting
-比如isupergw (超网)
-
-## Adapter 模式
-In the adapter pattern, the adapter container is used to modify the interface of the application container so that it conforms to some predefined interface that is expected of all applications. For exam‐ ple, an adapter might ensure that an application implements a consistent monitoring interface. Or it might ensure that log files are always written to stdout or any number of other conventions.
-### Monitoring 
-Applying the adapter pattern to monitoring, we see that the application container is simply the application that we want to monitor. The adapter container contains the tools for transforming the monitoring interface exposed by the application container into the interface expected by the general- purpose monitoring system.
-
-使用场景：抓log
-Hands On: Using Prometheus for Monitoring
-### Logging
-Systems might divide their logs into different levels (such as debug, info, warning, and error) with each level going into a different file. Some might simply log to stdout and stderr. This is especially problematic in the world of containerized applications where there is a general expectation that your containers will log to stdout, because that is what is available via commands like docker logs or kubectl logs.
-
-the adapter pattern can help provide a modular, re- usable design for both of these situations. While the application container may log to a file, the adapter container can redirect that file to stdout. Different application con‐ tainers can log information in different formats, but the adapter container can trans‐ form that data into a single structured representation that can be consumed by your log aggregator. Again, the adapter is taking a heterogeneous world of applications and creating a homogenous world of common interfaces.
-
-Hands On: Normalizing Di erent Logging Formats with Fluentd
-
-### Adding a Health Monitor
-Consider the task of monitoring the health of an off-the-shelf database container.
-比如铁三写的沙箱health monitor script的想法
-The database runs in the application container and shares a network inter‐ face with the adapter container. The adapter container is a simple container that only contains the shell script for determining the health of the database. This script can then be set up as the health check for the database container and can perform what‐ ever rich health checks our application requires. If these checks ever fail, the database will be automatically restarted.
-
-
 第2部分 - servring pattern （服务模式）
 described patterns for grouping collections of containers that are scheduled on the same machine. These groups are tightly coupled, symbiotic sys‐ tems. They depend on local, shared resources like disk, network interface, or inter- process communications. Such collections of containers are important patterns, but they are also building blocks for larger systems. Reliability, scalability, and separation of concerns dictate that real-world systems are built out of many different compo‐ nents, spread across multiple machines. 
 
@@ -72,13 +6,6 @@ described patterns for grouping collections of containers that are scheduled on 
 Additionally, the introduction of formal APIs in between different microservices decouples the teams from one another and provides a reliable contract between the different services. This formal contract reduces the need for tight synchronization among the teams because the team providing the API understands the surface area that it needs to keep stable, and the team consuming the API can rely on a stable ser‐ vice without worrying about its details. This decoupling enables teams to independ‐ ently manage their code and release schedules, which in turn improves each team’s ability to iterate and improve their code.
 
 
-As Yegge's recalls that one day Jeff Bezos issued a mandate, sometime back around 2002 (give or take a year):
-
-All teams will henceforth expose their data and functionality through service interfaces.
-Teams must communicate with each other through these interfaces.
-There will be no other form of inter-process communication allowed: no direct linking, no direct reads of another team’s data store, no shared-memory model, no back-doors whatsoever. The only communication allowed is via service interface calls over the network.
-It doesn’t matter what technology they use.
-All service interfaces, without exception, must be designed from the ground up to be externalizable. That is to say, the team must plan and design to be able to expose the interface to developers in the outside world. No exceptions.
 
 The two foremost disadvantages are that because the system has become more loosely coupled, debugging the system when failures occur is significantly more diffi‐ cult. You can no longer simply load a single application into a debugger and deter‐ mine what went wrong. Any errors are the byproducts of a large number of systems often running on different machines. This environment is quite challenging to repro‐ duce in a debugger. As a corollary, microservices-based systems are also difficult to design and architect. A microservices-based system uses multiple methods of com‐ municating between services; different patterns (e.g., synchronous, asynchronous, message-passing, etc.); and multiple different patterns of coordination and control among the services.
 
@@ -197,47 +124,3 @@ A great example of the value of the decorator pattern is adding defaults to the 
 
  ### Implementing Locks
  When using distributed locks, it is critical to ensure that any pro‐ cessing you do doesn’t last longer than the TTL of the lock. One good practice is to set a watchdog timer when you acquire the lock. The watchdog contains an assertion that will crash your program if the TTL of the lock expires before you have called unlock.
-
- # Batch Computational Patterns
- Examples of a batch process include generating aggregation of user telemetry data, analyzing sales data for daily or weekly reporting, or transcoding video files. Batch processes are generally characterized by the need to process large amounts of data quickly using parallelism to speed up the processing. The most famous pattern for distributed batch processing is the MapReduce pattern, which has become an entire industry in itself. However, there are several other patterns that are useful for batch processing, which are described in the following chapters.
- 
- ## Work Queue Systems
- figure 10.1
-
-
-You might wonder why we include a v1 in the API definition. Will there ever be a v2 of this interface? It may not seem logical, but it costs very little to version your API when you initially define it. Refactoring versioning onto an API without it, on the other hand, is very expensive. Consequently, it is a best practice to always add versions to your APIs even if you’re not sure they will ever change. Better safe than sorry.
-
-### Hands On: Implementing a Video Thumbnailer
-
-### The Multi-Worker Pattern
-
-# Event-Driven Batch Processing
-
-
-## Patterns of Event-Driven Processing
-
-### Copier
-
-### Filter
-
-### Splitter
-An example of an application of the splitter pattern is processing online orders where people can receive shipping notifications either by email or text message. Given a work queue of items that have been shipped, the splitter divides it into two different queues: one that is responsible for sending emails and another devoted to sending text messages. 
-
-### Merger
-
-## Publisher/Subscriber infrastructure
-how installing Kafka into your Kubernetes cluster can dra‐ matically simplify the task of building a work queue based system.
-
-## Coorindated Batch Proceesing
-
-### Join (or Barrier Synchronization)
-### Reduce
-### Sum
-
-### Hands On: An Image Tagging & Processing Pipeline
-To see how coordinated batch processing can be used to accomplish a larger batch task, consider the job of tagging and processing a set of images. Let us assume that we have a large collection of images of highways at rush hour, and we want to count both the numbers of cars, trucks, and motorcycles, as well as distribution of the colors of each of the cars. Let us also suppose that there is a preliminary step to blur the license plates of all of the cars to preserve anonymity.
-
-
-
-
-

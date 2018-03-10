@@ -14,9 +14,16 @@ https://azure.microsoft.com/en-us/resources/designing-distributed-systems/en-us/
 大部门内容是直接从原书来直接抄袭的。因此强烈建议读原书比较好。预计2小时能翻阅完。
 
 ## 作者觉得该书的意义
-1. 容器(container)的出现从根本上改变了开发开发分布式系统。 同时，
-2. 需要把大家各自理解的术语和实践统一起来，说人话了。
-3. 既然都说同样的术语了，我们建的轮子就容易表述明白是做什么用和该怎么用。
+1. 容器(container)的出现从根本上改变了开发开发分布式系统。 
+2. 是时间需把大家各自理解的术语和实践统一起来。
+3. 既然都说同样的术语了，我们建的轮子就容易表述明白是做什么用、该怎么用。
+4. 本书介绍了常用设计和快速开发可靠性高的分布式系统的实践。
+
+## 主要话题
+1. Use the side-car, adapter and ambassador patterns to split your application into a group of containers on a single machine
+2. Explore loosely coupled multi-node distributed patterns for replication, scaling and communication between the components
+3. Learn distributed system patterns for large-scale batch data processing covering work queues, event-based processing, and coordinated workflows.
+
 
 ## 我觉得本书的意义
 Jeff Bezos，国际著名电商和云服务供应商的CEO， 在2002年左右的某一天发布如下邮件：[1](https://apievangelist.com/2012/01/12/the-secret-to-amazons-success-internal-apis/)
@@ -39,6 +46,9 @@ YouTube.com, Facebook Photos这样的数据量的。
 1. 从视频文件里产生视频的缩略图 - Implementing a Video Thumbnailer
 2. 事件驱动（event-drive)的新用户注册
 3. 图片打标签和处理 An Image Tagging & Processing Pipeline
+
+## 蹭个热点
+[鉴于内外上关于开发机不够用，开发机部署难得问题]()，似乎本书有些解答。
 
 
 

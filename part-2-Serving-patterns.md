@@ -1,5 +1,5 @@
 第2部分 - servring pattern （服务模式）
-described patterns for grouping collections of containers that are scheduled on the same machine. These groups are tightly coupled, symbiotic sys‐ tems. They depend on local, shared resources like disk, network interface, or inter- process communications. Such collections of containers are important patterns, but they are also building blocks for larger systems. Reliability, scalability, and separation of concerns dictate that real-world systems are built out of many different compo‐ nents, spread across multiple machines. 
+described patterns for grouping collections of containers that are scheduled on the same machine. These groups are tightly coupled, symbiotic systems. They depend on local, shared resources like disk, network interface, or interprocess communications. Such collections of containers are important patterns, but they are also building blocks for larger systems. Reliability, scalability, and separation of concerns dictate that real-world systems are built out of many different components, spread across multiple machines. 
 
 ## Introduction to Microservices
 
@@ -13,17 +13,17 @@ These challenges are the motivation for distributed patterns. If a microservices
 
 ### Replicated Load-Balanced Services
 The simplest distributed pattern, and one that most are familiar with, is a replicated load-balanced service. 
-Examples of stateless services include things like static content servers and complex middleware systems that receive and aggre‐ gate responses from numerous different backend systems.
+Examples of stateless services include things like static content servers and complex middleware systems that receive and aggregate responses from numerous different backend systems.
 *When building an application for a replicated service pattern, be sure to include a special URL that implements this readiness check.
 
 ### Session Tracked Services
- Regardless of the reason, an adaption of the stateless replicated ser‐ vice pattern is to use session tracked services, which ensure that all requests for a sin‐ gle user map to the same replica, as illustrated i
+ Regardless of the reason, an adaption of the stateless replicated service pattern is to use session tracked services, which ensure that all requests for a sin‐ gle user map to the same replica, as illustrated i
 
- Generally speaking, this session tracking is performed by hashing the source and des‐ tination IP addresses and using that key to identify the server that should service the requests. So long as the source and destination IP addresses remain constant, all requests are sent to the same replica.
+ Generally speaking, this session tracking is performed by hashing the source and destination IP addresses and using that key to identify the server that should service the requests. So long as the source and destination IP addresses remain constant, all requests are sent to the same replica.
 
 Application-Layer Replicated Services
 ### Introducing a Caching Layer
-A cache exists between your stateless application and the end-user request. The simplest form of caching for web applications is a caching web proxy. The caching proxy is simply an HTTP server that maintains user requests in memory state. If two users request the same web page, only one request will go to your backend; the other will be serviced out of memory in the cache. This is illustra‐ ted in Figure 5-4.
+A cache exists between your stateless application and the end-user request. The simplest form of caching for web applications is a caching web proxy. The caching proxy is simply an HTTP server that maintains user requests in memory state. If two users request the same web page, only one request will go to your backend; the other will be serviced out of memory in the cache. This is illustrated in Figure 5-4.
 
 For our purposes, we will use Varnish, an open source web cache.
 Though this approach is simple, it has some disadvantages, namely that you will have to scale your cache at the same scale as your web servers. 
@@ -67,7 +67,7 @@ Figure 6-3
 hat replicate for scalability in terms of the number of requests processed per second (the stateless replicated pattern), as well as scalability for the size of the data (the sharded data pattern).
 we introduce the scatter/gather pattern, which uses replication for scalability in terms of time. Specifi‐ cally, the scatter/gather pattern allows you to achieve parallelism in servicing requests, enabling you to service them significantly faster than you could if you had to service them sequentially.
 
-However, in con‐ trast to replicated and sharded systems, with scatter/gather requests are simultane‐ ously farmed out to all of the replicas in the system. Each replica does a small amount of processing and then returns a fraction of the result to the root. The root server then combines the various partial results together to form a single complete response to the request and then sends this request back out to the client. 
+However, in contrast to replicated and sharded systems, with scatter/gather requests are simultaneously farmed out to all of the replicas in the system. Each replica does a small amount of processing and then returns a fraction of the result to the root. The root server then combines the various partial results together to form a single complete response to the request and then sends this request back out to the client. 
 
  Scatter/gather can be seen as sharding the computation necessary to service the request, rather than sharding the data (although data sharding may be part of it as well).
 
@@ -90,7 +90,7 @@ put them all together
 # Functions and Event-Driven Processing
 we have examined design for systems with long-running computation. The servers that handle user requests are always up and running. This pattern is the right one for many applications that are under heavy load, keep a large amount of data in memory, or require some sort of background processing. However, there is a class of applications that might only need to temporarily come into existence to handle a sin‐ gle request, or simply need to respond to a specific event. This style of request or event-driven application design has flourished recently as large-scale public cloud providers have developed function-as-a-service (FaaS) products.
 
-More recently, FaaS implementations have also emerged running on top of cluster orchestrators in private cloud or physical environments. This chapter describes emerging architectures for this new style of computing. In many cases, FaaS is a component in a broader archi‐ tecture rather than a complete solution.
+More recently, FaaS implementations have also emerged running on top of cluster orchestrators in private cloud or physical environments. This chapter describes emerging architectures for this new style of computing. In many cases, FaaS is a component in a broader architecture rather than a complete solution.
 
 ## Determining When FaaS Makes Sense
 The benefits of FaaS are primarily for the developer.

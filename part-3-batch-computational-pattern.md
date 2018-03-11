@@ -29,9 +29,8 @@ An example of an application of the splitter pattern is processing online orders
 
 
 ## Publisher/Subscriber infrastructure
-how installing Kafka into your Kubernetes cluster can dra‐ matically simplify the task of building a work queue based system.
+how installing Kafka into your Kubernetes cluster can dramatically simplify the task of building a work queue based system.
 
-### Hands On :Deploying Kafka
 
 
 ## Coorindated Batch Proceesing

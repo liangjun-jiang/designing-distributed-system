@@ -111,11 +111,8 @@ A great example of the value of the decorator pattern is adding defaults to the 
  As an example of this, imagine a pipeline in which the original event is code being submitted into a source control system. This event then triggers a build. The build may take multiple minutes to complete, and when it does, it fires an event to a build analysis function. This function takes different actions if the build is successful or fails. If the build succeeded, a ticket is created for a human to approve it to be pushed to production. Once the ticket is closed, the act of closing is an event that triggers the actual push to production. If the build failed, a bug is filed on the failure, and the event pipeline terminates.
 
  # Chapter 9 Ownership Election
- how you scale assignment. In many different systems, there is a notion of ownership where a specific process owns a specific task. 
+ In the context of a single server, ownership is generally straightforward to achieve because there is only a single application that is establishing ownership, and it can use well-established in-process locks to ensure that only a single actor owns a particular shard or context. However, restricting ownership to a single application limits scala‐ bility, since the task can’t be replicated, and reliability, since if the task fails, it is unavailable for a period of time. Consequently, when ownership is required in your system, you need to develop a distributed system for establishing ownership.
+ In the diagram, there are three replicas that could be the owner or master. Initially, the first replica is the master. Then that replica fails, and replica number three then becomes the master. Finally, replica number one recovers and returns to the group, but replica three remains as the master/owner.
+ A general diagram of distributed ownership is shown in [Figure 9-1]()
 
- ## Determining If You Even Need Master Election
-
- ## The Basics of Master Election
-
- ### Implementing Locks
- When using distributed locks, it is critical to ensure that any pro‐ cessing you do doesn’t last longer than the TTL of the lock. One good practice is to set a watchdog timer when you acquire the lock. The watchdog contains an assertion that will crash your program if the TTL of the lock expires before you have called unlock.
+ 
